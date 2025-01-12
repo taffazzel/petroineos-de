@@ -8,6 +8,7 @@ import os
 import shutil
 import logging
 import time
+from pathlib import Path
 
 logging.basicConfig(level=logging.INFO)
 
@@ -62,6 +63,8 @@ if __name__=="__main__":
             '''result write to csv'''
             df_standardized.repartition(1).write.csv(output_result+"/"+filename_to_process[0].split(".")[0],mode="overwrite", header=True)
             '''backup'''
+            backup_folder = Path(backup_location_of_all_processed_files)
+            backup_folder.mkdir(parents=True, exist_ok=True)
             try:
                 move(file_to_process_full_loc, backup_location_of_all_processed_files)
             except Exception as e:
